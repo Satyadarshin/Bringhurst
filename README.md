@@ -1,17 +1,24 @@
 # Bringhurst
-A template project with a lean in to best practice Web typography, inspired by Robert Brignhurst and his seminal "Elements of Typographic Style" (Hartley & Marks Publishers, 2012). 
+A template project with a lean in to best-practice Web typography, inspired by Robert Brignhurst and his seminal *Elements of Typographic Style* (Hartley & Marks Publishers, 2012). 
 
-The output is `css/style.css` genereated from a set of SASS files. 
+The product will be `/css/style.css` compiled from the SASS partials in `/scss`. You'll need to have at least a basic grasp of SASS in order to make much use of this project, but if you don&rsquo;t, it's really not that hard, and worth your effort.  
 
 ## Documentation
 
-The `/documentation` directory contains 
+The `/documentation` directory contains CSS files that explain the purpose of the working output, often with extensive comments. The comments would clutter and clog up the project output, which is aimed at production, and therefore bloat the file-size unnecessarilly. 
+
+## SASS
+A breakdown of the partials and what they collate. 
+- Typography. Styles that are aimed at fonts
+- Utilities. Multi-use classes that 
 
 ## Credit where credit's due
 
 Almost all of the work you see in this project was collated from reading and watching articles and tutorials around the Web. As far as possible I've credited everyone who's work I've directly folded into the project.
 
-[K. Powell](https://www.youtube.com/kepowob), "" YouTube \[website], <>, accessed September 21, 2022.
+[Kevin Powell](https://www.youtube.com/kepowob)
+- "The problem with browser defaults and the future of resets!", YouTube \[website], \<https://www.youtube.com/watch?v=L4wPV-K1lNI>, accessed September 21, 2022.
+- "Full-width background inside a container", YouTube \[website], \<https://www.youtube.com/shorts/81pnuZFarRw>, accessed September 20, 2022.
 
 R. Weychert, "A Modern Typographic Scale", 24 Ways to Impress Your Friends \[website], \<https://24ways.org/2019/a-modern-typographic-scale/>, accessed September 20, 2022
 
