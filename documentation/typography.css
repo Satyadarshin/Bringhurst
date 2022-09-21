@@ -1,0 +1,62 @@
+/*
+* For a full explanation 
+* R. Weychert, "A Modern Typographic Scale", 24 Ways to Impress Your Friends [website],
+* <https://24ways.org/2019/a-modern-typographic-scale/>, accessed September 20, 2022
+*/
+
+/*
+The quickest way to get a scale up and running 
+when working on the web is to drop its values into some CSS variables. 
+The naming convention I typically use begins with --scale0, 
+which is the body text size. The size below it is -
+-scale-1 (as in “scale minus one”), the size above it is 
+--scale1, and so on. Keeping the names relative to each other 
+like this helps me move around the scale intuitively as I use it. 
+If, say, --scale4 isn’t big enough for my h1, I can move up to --scale5 
+or --scale6, and I always know exactly how many steps 
+away from the body text I am. 
+*/
+:root {
+  --scale-2: 0.4rem;  /* 0.7rem ÷ 1.5 */
+  --scale-1: 0.7rem;  /* 1rem ÷ 1.5   */
+  --scale0: 1rem;     /* body text    */
+  --scale1: 1.5rem;   /* 1rem × 1.5   */
+  --scale2: 2.25rem;  /* 1.5rem × 1.5 */
+}
+
+/* 
+Another benefit of the relative nature of rems: 
+I tend to use larger text sizes on large viewports 
+and smaller text sizes on small viewports. 
+Rather than adjusting dozens or hundreds 
+of typographic CSS declarations per breakpoint, 
+I can shift the whole scale up or down 
+merely by adjusting the font-size on the html element: 
+*/
+
+html { 
+  font-size: 100%;  /* 1rem = 16px */
+}    
+
+@media screen and (min-width: 25em) {
+  html { 
+    font-size: 112.5%; /* 1rem = 18px */
+  }
+}
+
+/*
+But my setup still isn’t optimized for one very important adjustment: 
+the interval, which is currently 1.5. If 1.5 isn’t quite working for me 
+and I want to see how an increase or decrease will affect the scale, 
+I need to do the math all over again for every step in the scale 
+every time I adjust the interval. The bigger the scale, 
+the more time that will take. It’s time to put down the abacus and get calc() involved.
+*/
+:root {
+  --int: 1.5;
+  --scale0: 1rem;
+  --scale-1: calc(var(--scale0) / var(--int));
+  --scale-2: calc(var(--scale-1) / var(--int));
+  --scale1: calc(var(--scale0) * var(--int));
+  --scale2: calc(var(--scale1) * var(--int));
+}
