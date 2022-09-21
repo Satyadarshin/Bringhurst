@@ -1,13 +1,20 @@
 /* 
- * A. Bell, "Managing Flow and Rhythm with CSS Custom Properties", 24 Ways to Impress Your Friends \[website],
- * <https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/>, accessed September 20, 2022.
+ * For full documentation see
+ * ../documentation/utilities.css
 */
 
 .flow {
-    --flow-space: 1em;
+  --flow-space: 1em;
+  & > * + * { 
+      margin-top: 1em; // Backwards compatibility
+      margin-top: var(--flow-space);
   }
-  
-  .flow > * + * { 
-    margin-top: 1em; // Backwards compatibility
-    margin-top: var(--flow-space);
-  }
+}
+
+/*
+ * Will push the background colour of a container
+*/
+@mixin container-horizontal-bleed( $background-colour ) {
+  box-shadow: 0 0 0 100vmax $background-colour;
+  clip-path: inset(0 -100vmax);
+}

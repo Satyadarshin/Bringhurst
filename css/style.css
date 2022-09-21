@@ -1,5 +1,9 @@
+/* 
+ * For full documentation see
+ * ../documentation/typography.css
+*/
 /*
-* For a full explanation 
+* This is the SASS version from the article 
 * "A Modern Typographic Scale", Rob Weychert, (2019)
 * https://24ways.org/2019/a-modern-typographic-scale/
 */
@@ -22,14 +26,17 @@ html {
 }
 
 /* 
- * A. Bell, "Managing Flow and Rhythm with CSS Custom Properties", 24 Ways to Impress Your Friends \[website],
- * <https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/>, accessed September 20, 2022.
+ * For full documentation see
+ * ../documentation/utilities.css
 */
 .flow {
   --flow-space: 1em;
 }
-
 .flow > * + * {
   margin-top: 1em;
   margin-top: var(--flow-space);
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*
+ * Will push the background colour of a container
+*//*# sourceMappingURL=style.css.map */

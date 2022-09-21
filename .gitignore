@@ -1,2 +1,4 @@
+# The production output should come from compiled SASS.
+/css
 *.vscode
 *.code-workspace

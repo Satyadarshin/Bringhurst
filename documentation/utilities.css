@@ -1,0 +1,28 @@
+/*
+ * Container, like <section>, bleeds to viewport edges sides only.
+ * K. Powell, "Full-width background inside a container", YouTube [website], 
+ * <https://www.youtube.com/shorts/81pnuZFarRw>, accessed September 20, 2022.
+ * In SASS this is presented as a mixin  container-horizontal-bleed( $background-colour )
+ * where the background colour is passed in as a parameter. 
+*/
+
+.full-bleed {
+    box-shadow: 0 0 0 100vmax antiquewhite;
+    clip-path: inset(0 -100vmax);
+}
+
+/* 
+ * A. Bell, "Managing Flow and Rhythm with CSS Custom Properties", 24 Ways to Impress Your Friends [website],
+ * <https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/>, accessed September 20, 2022.
+ * NB It's important to understand how the cascade / inheritance works and how to override the custom property value
+ * as you go down the selector tree.  
+*/
+
+.flow {
+    --flow-space: 1em;
+  }
+  
+  .flow > * + * { 
+    margin-top: 1em; /* Backwards compatibility */
+    margin-top: var(--flow-space);
+  }
