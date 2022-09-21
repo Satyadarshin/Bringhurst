@@ -1,0 +1,13 @@
+/* 
+ * A. Bell, "Managing Flow and Rhythm with CSS Custom Properties", 24 Ways to Impress Your Friends \[website],
+ * <https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/>, accessed September 20, 2022.
+*/
+
+.flow {
+    --flow-space: 1em;
+  }
+  
+  .flow > * + * { 
+    margin-top: 1em; // Backwards compatibility
+    margin-top: var(--flow-space);
+  }
