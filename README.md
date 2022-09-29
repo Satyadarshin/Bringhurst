@@ -1,7 +1,7 @@
 # Bringhurst
 A template project with a lean in to best-practice Web typography, inspired by Robert Brignhurst and his seminal *Elements of Typographic Style* (Hartley & Marks Publishers, 2012). 
 
-The product will be `/css/style.css` compiled from the SASS partials in `/scss`. You'll need to have at least a basic grasp of SASS in order to make much use of this project, but if you don&rsquo;t, it's really not that hard, and worth your effort.  
+The product will be `/css/style.css` compiled from the SASS partials in `/scss`. You'll need to have at least a basic grasp of SASS in order to make much use of this project, but if you don&rsquo;t, it's really not that hard, and worth your effort.
 
 ## Documentation
 
