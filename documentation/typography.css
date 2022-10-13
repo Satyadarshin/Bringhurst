@@ -1,20 +1,64 @@
 /*
-* For a full explanation 
+*
 * R. Weychert, "A Modern Typographic Scale", 24 Ways to Impress Your Friends [website],
 * <https://24ways.org/2019/a-modern-typographic-scale/>, accessed September 20, 2022
+* 
+B. Adrian, "Modern Fluid Typography Using CSS Clamp", Smashing Magazine [website], Jan 17, 2022
+*<https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp/>
+
+C. Coyier <https://css-tricks.com/simplified-fluid-typography/>
+
+A. Roselli <https://adrianroselli.com/2019/12/responsive-type-and-zoom.html>
+
+M. Riethmuller "Responsive And Fluid Typography With vh And vw Units",
+<https://www.smashingmagazine.com/2016/05/fluid-typography/>, May 2016
+
+E. Hein <https://elisehe.in/2021/03/13/fluid-type>
+
+J Gilyead, T Mudford, "Meet Utopia: Designing And Building With Fluid Type And Space Scales" April 1 2021
+<https://www.smashingmagazine.com/2021/04/designing-developing-fluid-type-space-scales/>
+
+T Brown <https://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/>
+
+A Bell, <https://css-tricks.com/consistent-fluidly-scaling-type-and-spacing/>
+
+T Mudford <https://utopia.fyi/blog/painting-with-a-fluid-space-palette/>
+
+# Tools
+
+J Church <https://type-scale.com>
+
+<https://demo.utopia.fyi/>
+
+Modern fluid typography editor <https://modern-fluid-typography.vercel.app/>
+
+# Articles
+
+<https://alistapart.com/blog/topic/typography-web-fonts/>
+
+<https://www.smashingmagazine.com/category/typography>
+
+<https://24ways.org/>
 */
 
 /*
-The quickest way to get a scale up and running 
-when working on the web is to drop its values into some CSS variables. 
-The naming convention I typically use begins with --scale0, 
-which is the body text size. The size below it is -
--scale-1 (as in “scale minus one”), the size above it is 
---scale1, and so on. Keeping the names relative to each other 
-like this helps me move around the scale intuitively as I use it. 
-If, say, --scale4 isn’t big enough for my h1, I can move up to --scale5 
-or --scale6, and I always know exactly how many steps 
-away from the body text I am. 
+
+It's all too easy, especially when building a component-based or modular project, to loose sense of the typography. 
+Obvioulsy enough, webistes are still all about type. Without text, they're prcaticlaly nothing. 
+Typpography isn't a matter of making a site look attractive (although that's a Very Good Thing), it's the principle of making a site readable and navigable.
+
+
+Weychert's starting point is to manually set up a scale in CSS custom properties.
+(The naming convention is Weychert's, but I've followed suit becuase it's self-explanatory.)
+The number of steps in the scale is of course a question of necessity: this set is sufficient to demonstrate the principle.
+Assuming that we stick with convention and agree that 16px is the right starting value, 1rem is the relative value equivalent. 
+This is important, because we want to bake-in the idea that this approach to typogreaphy is mutable from the off. 
+[Links: 16px as default; em v rem]
+What we should notice notice next is the interval of change, that 1.5 multplier. This where we make our first aesthetic decison. 
+There isn't a right or best answer here, but clearly without a rational interval, we're not going to see a clear set of setps in the scale. 
+That will undermine the hierachy we're trying to create; users won't be able to clearly distingiush between levels in the type hierarchy.
+A good strting point is https://type-scale.com/ Here you can see the effects of changing variables, and pick the starting point that works for your project.
+
 */
 :root {
   --scale-2: 0.4rem;  /* 0.7rem ÷ 1.5 */
@@ -24,14 +68,33 @@ away from the body text I am.
   --scale2: 2.25rem;  /* 1.5rem × 1.5 */
 }
 
+/*
+This is still a bit laborious, espcially during the devlopment process, so we can automate with the calc() CSS function. 
+*/
+:root {
+  --int: 1.5;
+  --scale0: 1rem;
+  --scale-1: calc(var(--scale0) / var(--int));
+  --scale-2: calc(var(--scale-1) / var(--int));
+  --scale1: calc(var(--scale0) * var(--int));
+  --scale2: calc(var(--scale1) * var(--int));
+}
+
 /* 
-Another benefit of the relative nature of rems: 
-I tend to use larger text sizes on large viewports 
-and smaller text sizes on small viewports. 
-Rather than adjusting dozens or hundreds 
-of typographic CSS declarations per breakpoint, 
-I can shift the whole scale up or down 
-merely by adjusting the font-size on the html element: 
+To apply this, we would do something like the following on all of the relevant selectors. 
+*/
+h1 {
+  font-size: var(--scale2)
+}
+
+p {
+  font-size: var(--scale0)
+}
+
+/* 
+So while we now have a typographic scale, we don't have an effective,responsive scale.
+What this means is that, although 16px is pretty reliable and robust as a standard dsefault (it works for most users most of the time),
+we need to allow for the fact that it can, and indeed must, change. Lets look at this simple media query, again from Weychert's artcile:
 */
 
 html { 
@@ -45,19 +108,92 @@ html {
 }
 
 /*
-But my setup still isn’t optimized for one very important adjustment: 
-the interval, which is currently 1.5. If 1.5 isn’t quite working for me 
-and I want to see how an increase or decrease will affect the scale, 
-I need to do the math all over again for every step in the scale 
-every time I adjust the interval. The bigger the scale, 
-the more time that will take. It’s time to put down the abacus and get calc() involved.
+But this is a blunt-instrument approach, and only modestly responsive. 
+We know that viewing environments will be dramatically different. It's extremely difficult to set up media queries to cover all permutations, and even if we did, code becomes hard to read and maintain.
+Enter the clamp() CSS function. clamp() takes three parameters: the lowest a result can go, the optimum value, and the highest. 
+Adrian Bece breaks this approach down spectacularly well. The main takeaway at this point is that there's a distinction between fluid and responsive typography.
+
 */
-:root {
-  --int: 1.5;
-  --scale0: 1rem;
-  --scale-1: calc(var(--scale0) / var(--int));
-  --scale-2: calc(var(--scale-1) / var(--int));
-  --scale1: calc(var(--scale0) * var(--int));
-  --scale2: calc(var(--scale1) * var(--int));
+
+
+/*
+See the very last part? 35–21. That gives us the full range of our paragraph’s width. It resolves to 14, because 14em is the difference between our paragraph’s width at its most narrow and most wide.
+
+To the left of that, we’ve got 100vw–21em. Because of the way CSS calc works, this resolves to an em-based value — and gives us a numerator to place above the 14em we already figured out. So, for example, let’s say the viewport width (100vw) is equivalent to 34em. 34em–21em = 13em. Note that the viewport unit in this step is our secret sauce. The fact that this value can change dynamically with browser window width is what makes a dynamic line-height value possible.
+So the whole expression to the right of the multiplication sign gets distilled down to this: 13em / 14em, or 0.928571429em. Think of this as how close we are to the “upper gate” of our lock. If it’s near zero, we’re close to the lower gate. If it’s near one, we’re close to the upper gate.
+Moving to the left of the multiplication sign, we compute the difference between our maximum and minimum line heights. 1.5–1.3 = 0.2. This gives us the full range of our fluid line height.
+Now we multiply the full range of our fluid line height (step 4) by how far along we are toward the upper gate of our lock (step 3):
+0.2 * 0.928571429em = 0.185714286em.
+Add this to the minimum line-height, and we end up with a dynamic, fluid line-height value: 1.3em + 0.185714286em = 1.485714286em. Hey look, it’s pretty close to our maximum line-height of 1.5 — about as close as our value from step 3 was to our maximum paragraph width.
+Enclosing all of this logic in a width-based media query lets us disable it by default (use our minimum line-height of 1.3), enable it when the viewport is wider than our lower gate (use a line-height lock above 21em) and disable it above our upper gate (use our maximum line-height of 1.5 above 35em). Because em-based media queries refer to the default font-size of 100%, I multiplied mine by the root font-size I chose for the typeface I’m using (1.15em).
+
+
+*/
+
+p {
+
+  line-height: calc(1.3em + (1.5 - 1.3) * ((100vw - max conatiner width in ems )/ (subtract the min from max widths of the container in ems)));
 }
 
+/* *************************************
+/* //
+//   Sass calc lock for line-height
+//   -> https://blog.typekit.com/2016/08/17/flexible-typography-with-css-locks/
+//
+//   This Sass file is based on https://codepen.io/timbrown/full/akXvRw/.
+// *************************************
+
+// -------------------------------------
+//   Definition of the settings (cf. the typekit blog article for namings)
+// ——————————————————
+$font-size: 1.15em
+$min-lineheight: 1.3em
+$max-lineheight: 1.5em
+$lower-gate: 21em
+$upper-gate: 35em
+
+// -------------------------------------
+//   Helper function to strip units
+//   cf. https://github.com/sass/sass/issues/533
+// ——————————————————
+@function strip-units($number)
+   @return $number / ($number * 0 + 1)
+
+// -------------------------------------
+//   The function where the magic happens
+//   cf. the article for the basic formula
+// ——————————————————
+@function molten-leading($lower-gate, $upper-gate, $min-lineheight, $max-lineheight)
+   @return calc(#{$min-lineheight} + #{strip-units($max-lineheight - $min-lineheight)} * ((100vw - #{$lower-gate}) / #{strip-units($upper-gate) - strip-units($lower-gate)}))
+
+// -------------------------------------
+//   Some basic layouting
+// ——————————————————
+body
+   margin: 1em auto
+   padding: 0 1em
+   font-family: "Source Sans Pro", sans-serif
+   font-size: $font-size
+   max-width: $upper-gate
+
+   
+// -------------------------------------
+//   Usage of the "molten leading" line-height
+// ——————————————————
+p
+   line-height: $min-lineheight */
+
+/* 21em "gate" * 1.15 font-size */
+@media screen and (min-width: #{$lower-gate* strip-units($font-size)})
+   p {
+     
+     line-height: molten-leading($lower-gate, $upper-gate, $min-lineheight, $max-lineheight)
+    }
+
+/* 35em "gate" * 1.15 font-size */
+@media (min-width: #{$upper-gate * strip-units($font-size)})
+   p {
+     line-height: $max-lineheight
+     Prefix of the temporary container title
+    }
+)

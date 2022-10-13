@@ -9,25 +9,22 @@
 * https://24ways.org/2019/a-modern-typographic-scale/
 */
 
-html { 
-  font-size: 100%;  /* 1rem = 16px */
-}    
 
-@media screen and (min-width: 25em) {
-  html { 
-    font-size: 112.5%; /* 1rem = 18px */
-  }
-}
 
 :root {
   $interval: 1.5;    // Unitless for proportional, unit for fixed
   $body-text: 1rem;  // Must have a unit
   $scale-min: -2;    // Unitless negative integer
   $scale-max: 2;     // Unitless positive integer
+  $container-width: 1120px;
 
   --int: #{$interval};
   --scale0: #{$body-text};
 
+  /*
+   * This scale produces a set of preffered font-size values.
+   * 
+   */
   @if $scale-min < 0 {
   // Generate scale variables smaller than the base text size
     @for $i from -1 through $scale-min {
