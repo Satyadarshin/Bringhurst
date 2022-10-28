@@ -1,0 +1,16 @@
+{
+  "name": "webtypography",
+  "version": "1.0.0",
+  "description": "A template project with a lean in to best-practice Web typography, inspired by Robert Brignhurst and his seminal *Elements of Typographic Style* (Hartley & Marks Publishers, 2012).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "postcss": "^8.4.18",
+    "postcss-cli": "^10.0.0"
+  }
+}

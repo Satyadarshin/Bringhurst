@@ -1,4 +1,5 @@
 # The production output should come from compiled SASS.
 /css
+/node-modules
 *.vscode
 *.code-workspace
