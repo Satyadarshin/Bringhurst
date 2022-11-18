@@ -22,7 +22,7 @@
   --scale0: #{$body-text};
 
   /*
-   * This scale produces a set of preffered font-size values.
+   * This scale produces a set of preferred font-size values.
    * 
    */
   @if $scale-min < 0 {
@@ -50,3 +50,20 @@
     }
   }
 }
+/*
+
+
+@media screen and (min-width: #{$lower-gate* strip-units($font-size)}) {
+  p {
+    line-height: molten-leading($lower-gate, $upper-gate, $min-lineheight, $max-lineheight)
+  }
+}
+
+// 35em "gate" * 1.15 font-size
+@media (min-width: #{$upper-gate * strip-units($font-size)}) {
+   p {
+     line-height: $max-lineheight
+     Prefix of the temporary container title
+    }
+  }
+  */

@@ -1,0 +1,12 @@
+/*
+* See
+* "Box Sizing",  Marie Mosley, Sep 10, 2010 (Updated on May 6, 2015),  https://css-tricks.com/box-sizing/
+* "Inheriting box-sizing Probably Slightly Better Best-Practice", Chris Coyier, Jul 15, 2014 (Updated on Sep 23, 2014), https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+*/
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}

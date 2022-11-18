@@ -12,7 +12,8 @@
 }
 
 /*
- * Will push the background colour of a container
+ * Push the background colour of a container off to the sides.
+ * Presents the illusion of a full-width, full-bleed container.
 */
 @mixin container-horizontal-bleed( $background-colour ) {
   box-shadow: 0 0 0 100vmax $background-colour;
