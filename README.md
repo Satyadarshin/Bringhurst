@@ -7,6 +7,12 @@ The product will be `/css/style.css` compiled from the SASS partials in `/scss`.
 
 The `/documentation` directory contains CSS files that explain the purpose of the working output, often with extensive comments. The comments would clutter and clog up the project output, which is aimed at production, and therefore bloat the file-size unnecessarilly. 
 
+## Config
+There are .config files for NPM, Webpack, and PostCSS. To some extent they work together.
+
+### PostCSS
+The Autoprefixer plugin uses browserslist to determine which vendor prefixes are required according to your list of supported browsers. It’s easiest to define this list as a "browserslist" array in package.json. The ">2%" value adds vendor prefixes where any browser has at least 2% market share.
+
 ## SASS
 A breakdown of the partials and what they collate. 
 - Typography. Styles that are aimed at fonts
