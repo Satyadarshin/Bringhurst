@@ -13,8 +13,9 @@ There are .config files for NPM, Webpack, and PostCSS. To some extent they work 
 ### PostCSS
 The Autoprefixer plugin uses browserslist to determine which vendor prefixes are required according to your list of supported browsers. It’s easiest to define this list as a "browserslist" array in package.json. The ">2%" value adds vendor prefixes where any browser has at least 2% market share.
 
-## SASS
+## src
 A breakdown of the partials and what they collate. 
+- Style. The collation file.
 - Typography. Styles that are aimed at fonts
 - Utilities. Multi-use classes that 
 

@@ -12,10 +12,10 @@
 
 
 :root {
-  $interval: 1.5;    // Unitless for proportional, unit for fixed
-  $body-text: 1rem;  // Must have a unit
-  $scale-min: -2;    // Unitless negative integer
-  $scale-max: 2;     // Unitless positive integer
+  $interval: 1.5;    /* Unitless for proportional, unit for fixed */
+  $body-text: 1rem;  /* Must have a unit */
+  $scale-min: -2;    /* Unitless negative integer */
+  $scale-max: 2;     /* Unitless positive integer */
   $container-width: 1120px;
 
   --int: #{$interval};
