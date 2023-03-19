@@ -4,20 +4,27 @@
   "description": "A template project with a lean in to best-practice Web typography, inspired by Robert Brignhurst and his seminal *Elements of Typographic Style* (Hartley & Marks Publishers, 2012).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postcss:watch": "postcss src/style.css --dir public --watch"
+    "postcss:watch": "postcss src/css/index.css --dir dist --watch",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^6.7.3",
     "cssnano": "^5.1.15",
+    "html-webpack-plugin": "^5.5.0",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.0.0",
     "postcss-import": "^15.1.0",
+    "postcss-loader": "^7.1.0",
     "postcss-nested": "^6.0.1",
     "postcss-preset-env": "^8.0.1",
-    "webpack": "^5.76.1"
+    "style-loader": "^3.3.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1"
   },
   "browserslist": [
     ">2%"
