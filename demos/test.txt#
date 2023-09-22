@@ -1,0 +1,137 @@
+
+<h2>What problem are we trying to solve here?</h2>
+
+<p>Views is a Drupal tool for organising blocks of information that repeat: it's great for rows in a table, items in a list, and panels in a grid. But our project needed something that didn't neatly fit either of these models, and in a sense was a bit of all three. So, rather than try to bend the defaults to our will and wrangle with the inevitable compromises, the obvious thing to do was create our own option.</p>
+
+<p>I struggled to find a straightforward tutorial on this, so this is how I went about it.</p>
+
+<h3>What you need to know already</h3>
+
+<p>This is an advanced topic, aimed at <strong>Drupal 9 or 10</strong> developers struggling to find an tutorial on a niche task. I would suggest that you should already need be very comfortable with Drupal's UI, and Views in particular. It's not a copy-paste code solution, so you need to be at least an intermediate coder comfortable with the rudiments of Object Oriented PHP. It's highly likely that you'll need to do some command line work, so if you don't know your way around a Terminal, you might struggle.</p>
+
+<h3>Surely there's already module for this?</h3>
+
+<p>Not really, no. When I came to look for direction on customising Views Styles I was actually quite surprised to find that someone hadn't already nailed this problem. To be fair, I'm not that person either: I'm trying to solve a problem for a <em>specific</em> task, not a generalised one for the Drupal community. But hopefully, you'll get something from my labour.</p>
+
+<h2>Building your Drupal module</h2>
+
+<p>Naming conventions are <strong>really</strong> important, and I chose snake_case following the directions under <a href="https://www.drupal.org/docs/develop/creating-modules/naming-and-placing-your-drupal-module">Naming and placing your Drupal module</a>. Note that everything below as my_custom_views_format should be substituted for your own module name.</p>
+
+<p>Following the article linked above, I discovered that manually placing my module directory under either of the suggested paths <strong>didn't</strong> result in it being auto-detected by the list under <em>Extend</em>. I recommend going to <em>Extend</em> &gt; <em>Add new module</em> and uploading your project as a Zip archive. In the end, my custom module was auto-placed directly under <code>/web/modules/</code> and that was fine for my purposes. (If you have a lot of modules, that may be a bit arbitrary or untidy for you.) NB: see the note at the end about running updates on your module.</p>
+
+<p>Your custom module directory tree must contain the following folders and files as a minimum. Note the spelling and cases: yes, that's definitely <code>/Plugin</code>, and your Twig filename needs to be in kebab-case <strong>not</strong> snake_case.</p>
+
+<p><code>/my_custom_views_format/ my_custom_views_format.info.yml<br />
+src/Plugin/views/style/my_custom_views_format.php<br />
+templates/views-view-my-custom-views-format.html.twig </code></p>
+
+<p><code>my_custom_views_format.info.yml is the only essential config file. If you've looked at other tutorials on this topic, note that the <code>core:</code> key was dropped because we are a Drupal 9 project: it crashed our site, so absolutely check <a href="https://www.drupal.org/docs/develop/creating-modules/let-drupal-know-about-your-module-with-an-infoyml-file">the .info.yml documentation</a> for the declarations pertinent to your project.</code></p>
+
+<p><code>name: My custom Views format<br />
+type: module<br />
+description: 'Provides a custom Views style.'<br />
+package: Views<br />
+core_version_requirement: ^9 <br /> dependencies: -drupal:views<br /></code></p>
+
+<p><code><code>Open up my_custom_views_format.php. This is the file that creates the instance of your custom format; essentially letting Drupal know it exists. We're really just extending the default class, and declaring our required settings.</code></code></p>
+
+<p>To begin with, you can basically copy-paste the following, changing <strong>all</strong> the phrases containing "My Custom View Format" to fit your own module name. Note that the name of your file and the new class name must be in the same case, so CustomViewsFormat.php must be CustomViewsFormat.</p>
+
+<p>This will result in a proof of setup: you'll be able to see your custom format as an option, and make one "dummy" setting available.</code></p>
+
+<p><code>&lt;?php</p>
+
+<p>namespace Drupal\gdm_views_format\Plugin\views\style;<br />
+use Drupal\core\Form\FormStateInterface;<br />
+use Drupal\views\Plugin\views\style\StylePluginBase;</p>
+
+<p>/**<br />
+* My Custom View Format<br />
+*<br />
+* @ingroup views_style_plugins<br />
+*<br />
+* @ViewsStyle(<br />
+* id = "MyCustomViewsFormat",<br />
+* title = @Translation("My Custom Views format"),<br />
+* help = @Translation("My Custom Views format"),<br />
+* theme = "views_view_my_custom_views_format",<br />
+* display_types = { "normal" }<br />
+* )<br />
+**/</p>
+
+<p>class custom_views_format extends StylePluginBase {<br />
+/**<br />
+* Allow Row plugins.<br />
+* @var bool<br />
+**/ </code><br />
+<code>protected $usesRowPlugin = TRUE;</p>
+
+<p>/**<br />
+* Allow grouping of rows.<br />
+**/<br />
+protected $usesGrouping = TRUE;</p>
+
+<p>/**<br />
+* {@inheritdoc}<br />
+**/<br />
+public function buildOptionsForm(&amp;$form, FormStateInterface $form_state) {</p>
+
+<p>parent::buildOptionsForm($form, $form_state);<br />
+&nbsp; $form['dummy'] = array(<br />
+&nbsp;&nbsp;&nbsp; '#type' =&gt; 'textfield',<br />
+&nbsp;&nbsp;&nbsp; '#title' =&gt; t('My custom setting'),<br />
+&nbsp;&nbsp;&nbsp; '#default_value' =&gt; 'Dummy',<br />
+&nbsp;&nbsp;&nbsp; '#description' =&gt; t('Dummy setting.'),<br />
+&nbsp; &nbsp; /*</code><br />
+<code>&nbsp;&nbsp;&nbsp; * This next array is simply a demo<br />
+&nbsp;&nbsp;&nbsp; * of how to instantiate in-style settings.<br />
+&nbsp;&nbsp;&nbsp; * You don't need to include this if you don't<br />
+&nbsp;&nbsp;&nbsp; * plan to offer any UI-facing config.<br />
+&nbsp;&nbsp;&nbsp; **/<br />
+&nbsp;&nbsp;&nbsp; '#options' =&gt; array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'One' =&gt; $this-&gt;t('One'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'Two' =&gt; $this-&gt;t('Two'),<br />
+&nbsp;&nbsp;&nbsp; )<br />
+&nbsp; );<br />
+}</p>
+
+<p>/**<br />
+* Defines default values.<br />
+<code>* Again, this function is optional<br />
+* if you don't plan on UI config.<br />
+**/<br />
+protected function defineOptions() {<br />
+&nbsp;&nbsp;&nbsp; $options = parent::defineOptions();<br />
+&nbsp;&nbsp;&nbsp; $options['one'] = array('default' =&gt; 'One');<br />
+&nbsp;&nbsp;&nbsp; $options['two'] = array('default' =&gt; 'Two');<br />
+&nbsp;&nbsp;&nbsp; return $options;<br />
+&nbsp; }<br />
+}
+</code></p>
+
+<p>Note this line:</p>
+
+<p><code>theme = "views_view_my_custom_views_format"</code></p>
+
+<p>which is the name of your twig template; the template file name itself must be kebab case, however. Open up your views-view-my-custom-views-format.html.twig and add something like the following:</p>
+
+<p><code>{#<br />
+/**<br />
+* @file<br />
+* Default theme implementation for a custom Views format.<br />
+**/<br />
+#}<br />
+&lt;div class="my_custom_views_format"&gt;<br />
+{% for row in rows %}<br />
+&lt;div&gt;{{ row }}&lt;/div&gt;<br />
+{% endfor %}<br />
+</div>
+</code></p>
+
+<p>This should at least output something to demonstrate that you're at the starting block. Clearly this isn't the endpoint of: our custom style doesn't really do anything yet. But at least getting to the point where you can see where to go next.</p>
+
+<h3>Updating the module: beware!</h3>
+
+<p>Our module isn't managed by Composer: it's simply imported from a local development project. We hit a snag with updating it: being in an early design and development phase, we discovered that, if we assign our new, custom Style to a View, <em>then</em> run an update on the Style module itself, the <strong>whole</strong>&nbsp;View will get deleted! This is potentially very serious, because it means that any and all configuration done on the module is also gone.</p>
+
+<p>When we solve this conundrum, we'll add an update to this article.</p>
